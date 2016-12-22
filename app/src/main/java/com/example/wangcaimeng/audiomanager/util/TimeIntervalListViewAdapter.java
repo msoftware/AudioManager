@@ -39,7 +39,6 @@ public class TimeIntervalListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-            Log.i("position",i+"");
             view = LayoutInflater.from(context).inflate(R.layout.list_item,null);
             TextView startTimeTxt = (TextView) view.findViewById(R.id.listItemStartTimeText);
             TextView endTimeTxt = (TextView) view.findViewById(R.id.listItemEndTimeText);

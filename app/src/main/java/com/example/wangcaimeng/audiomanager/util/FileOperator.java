@@ -20,9 +20,9 @@ public class FileOperator {
     private static File dataFile;
     private static BufferedReader fileReader;
     private static FileWriter fileWriter;
-    private static ArrayList<TimeInterval> result = new ArrayList<>();
+    private static ArrayList<TimeInterval> result;
     public static void getDataFromFile(){
-
+        result = new ArrayList<>();
         String buffer;
         dataFile = new File(fileName);
         try {
@@ -66,6 +66,15 @@ public class FileOperator {
 
         return;
     }
+
+    public static void deleteAll(){
+        dataFile = new File(fileName);
+        if(dataFile.exists()){
+            dataFile.delete();
+            result.clear();
+        }
+    }
+
 
     public static ArrayList<TimeInterval> getResult() {
         return result;

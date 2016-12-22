@@ -12,14 +12,31 @@
     tools:context="com.example.wangcaimeng.audiomanager.MainActivity">
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="430dp"
         android:id="@+id/timeIntervalListView">
 
     </ListView>
-    <Button
-        android:text="添加时间段添"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:id="@+id/addTimeIntervalBtn" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:text="添加时间段添"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:id="@+id/addTimeIntervalBtn" />
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:textOff="点我启动服务"
+            android:textOn="点我关闭服务"
+            android:id="@+id/startService"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:text="删除全部数据"
+            android:id="@+id/deleteAll"/>
+    </LinearLayout>
+
 
 </LinearLayout>

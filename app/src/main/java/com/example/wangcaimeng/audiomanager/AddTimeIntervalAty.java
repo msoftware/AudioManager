@@ -53,7 +53,7 @@ public class AddTimeIntervalAty extends AppCompatActivity {
                 boolean isMute = isMuteRbtn.isChecked();
                 TimeInterval timeInterval = new TimeInterval(startTime,endTime,isMute);
                 FileOperator.saveDataToFile(timeInterval);
-                FileOperator.getResult().add(timeInterval);
+                //FileOperator.getResult().add(timeInterval);
                 startActivity(new Intent(AddTimeIntervalAty.this,MainActivity.class));
 
             }
