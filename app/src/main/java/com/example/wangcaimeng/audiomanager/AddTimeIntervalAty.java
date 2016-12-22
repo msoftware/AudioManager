@@ -19,7 +19,9 @@ import java.util.Calendar;
 public class AddTimeIntervalAty extends AppCompatActivity {
     private TextView startTimeTxt;
     private TextView endTimeTxt;
-    private RadioButton isMuteRbtn;
+    private Calendar cStart;
+    private Calendar cEnd;
+    private RadioButton isMuteBtn;
     private Button confirmBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,47 +29,51 @@ public class AddTimeIntervalAty extends AppCompatActivity {
         setContentView(R.layout.activity_add_time_interval_aty);
         startTimeTxt = (TextView) findViewById(R.id.addStartTimeText);
         endTimeTxt = (TextView) findViewById(R.id.addEndTimeText);
-        isMuteRbtn = (RadioButton) findViewById(R.id.isMuteRBtn);
+        isMuteBtn = (RadioButton) findViewById(R.id.isMuteRBtn);
         confirmBtn = (Button) findViewById(R.id.confirmBtn);
+        cStart = Calendar.getInstance();
+        cEnd = Calendar.getInstance();
 
 
         startTimeTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickTime((TextView) view);
+                pickTime((TextView) view,cStart);
             }
         });
 
         endTimeTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickTime((TextView) view);
+                pickTime((TextView) view,cEnd);
             }
         });
 
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String startTime = (String)startTimeTxt.getText();
-                String endTime = (String)endTimeTxt.getText();
-                boolean isMute = isMuteRbtn.isChecked();
-                TimeInterval timeInterval = new TimeInterval(startTime,endTime,isMute);
+                String startTimeText = (String)startTimeTxt.getText();
+                String endTimeText = (String)endTimeTxt.getText();
+                boolean isMute = isMuteBtn.isChecked();
+                TimeInterval timeInterval = new TimeInterval(startTimeText,endTimeText,isMute,cStart.getTimeInMillis(),cEnd.getTimeInMillis());
                 FileOperator.saveDataToFile(timeInterval);
-                //FileOperator.getResult().add(timeInterval);
                 startActivity(new Intent(AddTimeIntervalAty.this,MainActivity.class));
 
             }
         });
     }
 
-    private void pickTime(final TextView textView){
+    private void pickTime(final TextView textView,final Calendar c){
         Calendar calendar = Calendar.getInstance();
         new TimePickerDialog(AddTimeIntervalAty.this,new TimePickerDialog.OnTimeSetListener(){
             @Override
-            public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                textView.setText(i+":"+i1);
+            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                textView.setText(hourOfDay+":"+minute);
+                c.setTimeInMillis(System.currentTimeMillis());
+                // 根据用户选择的时间来设置Calendar对象
+                c.set(Calendar.HOUR, hourOfDay);
+                c.set(Calendar.MINUTE, minute);
             }
         },calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
-
     }
 }

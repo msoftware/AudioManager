@@ -44,9 +44,7 @@ public class MainActivity extends AppCompatActivity {
         startServiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isServiceRunning("com.example.wangcaimeng.audiomanager.AudioManageService")){
 
-                }
             }
         });
 

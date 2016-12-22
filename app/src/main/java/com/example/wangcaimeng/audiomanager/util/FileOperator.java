@@ -33,10 +33,12 @@ public class FileOperator {
             while((buffer=fileReader.readLine())!=null){
                 String spiltedString[] = buffer.split("#");
                 int id = Integer.parseInt(spiltedString[0]);
-                String startTime = spiltedString[1];
-                String endTime = spiltedString[2];
+                String startTimeText = spiltedString[1];
+                String endTimeText = spiltedString[2];
                 boolean isMute = Boolean.parseBoolean(spiltedString[3]);
-                result.add(new TimeInterval(id,startTime,endTime,isMute));
+                long startTime = Long.parseLong(spiltedString[4]);
+                long endTime = Long.parseLong(spiltedString[5]);
+                result.add(new TimeInterval(id,startTimeText,endTimeText,isMute,startTime,endTime));
             }
             fileReader.close();
         }catch (IOException e){
@@ -53,9 +55,11 @@ public class FileOperator {
             fileWriter = new FileWriter(dataFile,true);
             StringBuffer sb = new StringBuffer();
             sb.append(timeInterval.getId()+"#");
+            sb.append(timeInterval.getStartTimeText()+"#");
+            sb.append(timeInterval.getEndTimeText()+"#");
+            sb.append(timeInterval.isMute()+"#");
             sb.append(timeInterval.getStartTime()+"#");
-            sb.append(timeInterval.getEndTime()+"#");
-            sb.append(timeInterval.isMute());
+            sb.append(timeInterval.getEndTime());
             sb.append("\n");
             fileWriter.write(sb.toString());
             fileWriter.close();

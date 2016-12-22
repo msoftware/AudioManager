@@ -1,7 +1,6 @@
 package com.example.wangcaimeng.audiomanager.util;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +42,8 @@ public class TimeIntervalListViewAdapter extends BaseAdapter {
             TextView startTimeTxt = (TextView) view.findViewById(R.id.listItemStartTimeText);
             TextView endTimeTxt = (TextView) view.findViewById(R.id.listItemEndTimeText);
             TextView isMute = (TextView) view.findViewById(R.id.listItemIsMute);
-            startTimeTxt.setText(FileOperator.getResult().get(i).getStartTime());
-            endTimeTxt.setText(FileOperator.getResult().get(i).getEndTime());
+            startTimeTxt.setText(FileOperator.getResult().get(i).getStartTimeText());
+            endTimeTxt.setText(FileOperator.getResult().get(i).getEndTimeText());
             isMute.setText(FileOperator.getResult().get(i).isMute()?"静音":"响铃");
 
         return view;
