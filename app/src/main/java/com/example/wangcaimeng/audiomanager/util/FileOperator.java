@@ -36,9 +36,8 @@ public class FileOperator {
                 String startTimeText = spiltedString[1];
                 String endTimeText = spiltedString[2];
                 boolean isMute = Boolean.parseBoolean(spiltedString[3]);
-                long startTime = Long.parseLong(spiltedString[4]);
-                long endTime = Long.parseLong(spiltedString[5]);
-                result.add(new TimeInterval(id,startTimeText,endTimeText,isMute,startTime,endTime));
+
+                result.add(new TimeInterval(id,startTimeText,endTimeText,isMute));
             }
             fileReader.close();
         }catch (IOException e){

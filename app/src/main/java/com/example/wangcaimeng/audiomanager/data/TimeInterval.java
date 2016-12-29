@@ -1,5 +1,7 @@
 package com.example.wangcaimeng.audiomanager.data;
 
+import java.util.Calendar;
+
 /**
  * Created by wangcaimeng on 2016/12/8.
  */
@@ -14,24 +16,36 @@ public class TimeInterval {
     private long endTime;
 
 
-    public TimeInterval(String endTimeText, String startTimeText, boolean isMute,long startTime,long endTime) {
+    public TimeInterval( String startTimeText,String endTimeText, boolean isMute) {
         this.id = count++;
         this.endTimeText = endTimeText;
         this.startTimeText = startTimeText;
         this.isMute = isMute;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
 
-    public TimeInterval(int id, String startTimeText, String endTimeText, boolean isMute,long startTime,long endTime) {
+    public TimeInterval(int id, String startTimeText, String endTimeText, boolean isMute) {
         this.id = id;
         this.startTimeText = startTimeText;
         this.endTimeText = endTimeText;
         this.isMute = isMute;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
 
+    public void upDateTime(){
+        String sTime[] = startTimeText.split(":");
+        String eTime[] = endTimeText.split(":");
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(System.currentTimeMillis());
+        int hourOfDay = Integer.parseInt(sTime[0]);
+        int minute = Integer.parseInt(sTime[1]);
+        c.set(Calendar.HOUR_OF_DAY,hourOfDay);
+        c.set(Calendar.MINUTE,minute);
+        startTime=c.getTimeInMillis();
+        hourOfDay = Integer.parseInt(eTime[0]);
+        minute = Integer.parseInt(eTime[1]);
+        c.set(Calendar.HOUR_OF_DAY,hourOfDay);
+        c.set(Calendar.MINUTE,minute);
+        endTime=c.getTimeInMillis();
+    }
     public static int getCount() {
         return count;
     }

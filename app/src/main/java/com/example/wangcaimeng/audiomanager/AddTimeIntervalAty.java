@@ -19,8 +19,6 @@ import java.util.Calendar;
 public class AddTimeIntervalAty extends AppCompatActivity {
     private TextView startTimeTxt;
     private TextView endTimeTxt;
-    private Calendar cStart;
-    private Calendar cEnd;
     private RadioButton isMuteBtn;
     private Button confirmBtn;
     @Override
@@ -31,21 +29,19 @@ public class AddTimeIntervalAty extends AppCompatActivity {
         endTimeTxt = (TextView) findViewById(R.id.addEndTimeText);
         isMuteBtn = (RadioButton) findViewById(R.id.isMuteRBtn);
         confirmBtn = (Button) findViewById(R.id.confirmBtn);
-        cStart = Calendar.getInstance();
-        cEnd = Calendar.getInstance();
 
 
         startTimeTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickTime((TextView) view,cStart);
+                pickTime((TextView) view);
             }
         });
 
         endTimeTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickTime((TextView) view,cEnd);
+                pickTime((TextView) view);
             }
         });
 
@@ -55,7 +51,7 @@ public class AddTimeIntervalAty extends AppCompatActivity {
                 String startTimeText = (String)startTimeTxt.getText();
                 String endTimeText = (String)endTimeTxt.getText();
                 boolean isMute = isMuteBtn.isChecked();
-                TimeInterval timeInterval = new TimeInterval(startTimeText,endTimeText,isMute,cStart.getTimeInMillis(),cEnd.getTimeInMillis());
+                TimeInterval timeInterval = new TimeInterval(startTimeText,endTimeText,isMute);
                 FileOperator.saveDataToFile(timeInterval);
                 startActivity(new Intent(AddTimeIntervalAty.this,MainActivity.class));
 
@@ -63,16 +59,12 @@ public class AddTimeIntervalAty extends AppCompatActivity {
         });
     }
 
-    private void pickTime(final TextView textView,final Calendar c){
+    private void pickTime(final TextView textView){
         Calendar calendar = Calendar.getInstance();
         new TimePickerDialog(AddTimeIntervalAty.this,new TimePickerDialog.OnTimeSetListener(){
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
                 textView.setText(hourOfDay+":"+minute);
-                c.setTimeInMillis(System.currentTimeMillis());
-                // 根据用户选择的时间来设置Calendar对象
-                c.set(Calendar.HOUR, hourOfDay);
-                c.set(Calendar.MINUTE, minute);
             }
         },calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),true).show();
     }

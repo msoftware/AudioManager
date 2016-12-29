@@ -1,6 +1,5 @@
 package com.example.wangcaimeng.audiomanager;
 
-import android.animation.TimeAnimator;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -9,11 +8,13 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ToggleButton;
 
+import com.example.wangcaimeng.audiomanager.data.TimeInterval;
 import com.example.wangcaimeng.audiomanager.util.FileOperator;
 import com.example.wangcaimeng.audiomanager.util.TimeIntervalListViewAdapter;
 
@@ -26,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
     private Button deleteAllBtn;
     private ListView timeIntervalListView;
     private TimeIntervalListViewAdapter timeIntervalListViewAdapter;
-    private AlarmManager alarmManager;
-    private PendingIntent pi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,18 +37,37 @@ public class MainActivity extends AppCompatActivity {
         timeIntervalListView = (ListView) findViewById(R.id.timeIntervalListView);
 
         //声音控制服务启动与关闭
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(MainActivity.this,AudioManageService.class);
-        pi = PendingIntent.getService(MainActivity.this,0,intent,0);
+
         startServiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                for(TimeInterval timeInterval:FileOperator.getResult()){
+                    AlarmManager sAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    AlarmManager eAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                    if(timeInterval.isMute()){
+                        Intent intent = new Intent(MainActivity.this,AddTimeIntervalAty.class);
+                        PendingIntent pi = PendingIntent.getService(MainActivity.this,0,intent,0);
+                        sAlarmManager.set(AlarmManager.RTC_WAKEUP,timeInterval.getStartTime(),pi);
+                        intent = new Intent(MainActivity.this,RingService.class);
+                        pi = PendingIntent.getService(MainActivity.this,0,intent,0);
+                        eAlarmManager.set(AlarmManager.RTC_WAKEUP,timeInterval.getStartTime(),pi);
 
+                    }
+
+                }
             }
         });
 
         //绑定适配器
+        //从文件获取数据
         FileOperator.getDataFromFile();
+        //更新时间数据
+        for(TimeInterval timeInterval : FileOperator.getResult()){
+            timeInterval.upDateTime();
+            Log.i("###->",Long.toString(timeInterval.getStartTime()));
+            Log.i("###->",Long.toString(timeInterval.getEndTime()));
+
+        }
         timeIntervalListViewAdapter = new TimeIntervalListViewAdapter(MainActivity.this);
         timeIntervalListViewAdapter.notifyDataSetChanged();
         timeIntervalListView.setAdapter(timeIntervalListViewAdapter);
@@ -91,4 +109,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+
 }

@@ -28,7 +28,11 @@
          MediaBrowser (for browsing) and MediaController (for playback control)
         -->
         <service
-            android:name=".AudioManageService"
+            android:name=".MuteService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".RingService"
             android:enabled="true"
             android:exported="true"></service>
     </application>
