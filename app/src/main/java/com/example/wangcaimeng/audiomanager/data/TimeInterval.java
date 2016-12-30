@@ -35,6 +35,7 @@ public class TimeInterval {
         String eTime[] = endTimeText.split(":");
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
+        c.set(Calendar.SECOND,0);
         int hourOfDay = Integer.parseInt(sTime[0]);
         int minute = Integer.parseInt(sTime[1]);
         c.set(Calendar.HOUR_OF_DAY,hourOfDay);

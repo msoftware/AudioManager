@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     private Button deleteAllBtn;
     private ListView timeIntervalListView;
     private TimeIntervalListViewAdapter timeIntervalListViewAdapter;
+    private AlarmManager alarmManager;
+    private PendingIntent pi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,21 +39,19 @@ public class MainActivity extends AppCompatActivity {
         timeIntervalListView = (ListView) findViewById(R.id.timeIntervalListView);
 
         //声音控制服务启动与关闭
-
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         startServiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for(TimeInterval timeInterval:FileOperator.getResult()){
-                    AlarmManager sAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-                    AlarmManager eAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+                for(int i=0;i<FileOperator.getResult().size();i++){
+                    TimeInterval timeInterval=FileOperator.getResult().get(i);
                     if(timeInterval.isMute()){
-                        Intent intent = new Intent(MainActivity.this,AddTimeIntervalAty.class);
-                        PendingIntent pi = PendingIntent.getService(MainActivity.this,0,intent,0);
-                        sAlarmManager.set(AlarmManager.RTC_WAKEUP,timeInterval.getStartTime(),pi);
+                        Intent intent = new Intent(MainActivity.this,MuteService.class);
+                        pi = PendingIntent.getService(MainActivity.this,i,intent,0);
+                        alarmManager.set(AlarmManager.RTC_WAKEUP,timeInterval.getStartTime(),pi);
                         intent = new Intent(MainActivity.this,RingService.class);
-                        pi = PendingIntent.getService(MainActivity.this,0,intent,0);
-                        eAlarmManager.set(AlarmManager.RTC_WAKEUP,timeInterval.getStartTime(),pi);
-
+                        pi = PendingIntent.getService(MainActivity.this,i*2,intent,0);
+                        alarmManager.set(AlarmManager.RTC_WAKEUP,timeInterval.getEndTime(),pi);
                     }
 
                 }
