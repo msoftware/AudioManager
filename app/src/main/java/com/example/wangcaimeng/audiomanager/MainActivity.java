@@ -23,7 +23,8 @@ import com.example.wangcaimeng.audiomanager.util.TimeIntervalListViewAdapter;
  */
 public class MainActivity extends AppCompatActivity {
     private Button addTimeIntervalBtn;
-    private ToggleButton startServiceBtn;
+    private Button startServiceBtn;
+    private Button endServiceBtn;
     private Button deleteAllBtn;
     private ListView timeIntervalListView;
     private TimeIntervalListViewAdapter timeIntervalListViewAdapter;
@@ -34,7 +35,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addTimeIntervalBtn = (Button) findViewById(R.id.addTimeIntervalBtn);
-        startServiceBtn = (ToggleButton) findViewById(R.id.startService);
+        startServiceBtn = (Button) findViewById(R.id.startService);
+        endServiceBtn = (Button) findViewById(R.id.endService);
         deleteAllBtn = (Button) findViewById(R.id.deleteAll);
         timeIntervalListView = (ListView) findViewById(R.id.timeIntervalListView);
 
@@ -53,8 +55,27 @@ public class MainActivity extends AppCompatActivity {
                         pi = PendingIntent.getService(MainActivity.this,i*2,intent,0);
                         alarmManager.set(AlarmManager.RTC_WAKEUP,timeInterval.getEndTime(),pi);
                     }
-
                 }
+                view.setClickable(false);
+                endServiceBtn.setClickable(true);
+            }
+        });
+        endServiceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for(int i=0;i<FileOperator.getResult().size();i++){
+                    TimeInterval timeInterval=FileOperator.getResult().get(i);
+                    if(timeInterval.isMute()){
+                        Intent intent = new Intent(MainActivity.this,MuteService.class);
+                        pi = PendingIntent.getService(MainActivity.this,i,intent,0);
+                        alarmManager.cancel(pi);
+                        intent = new Intent(MainActivity.this,RingService.class);
+                        pi = PendingIntent.getService(MainActivity.this,i*2,intent,0);
+                        alarmManager.cancel(pi);
+                    }
+                }
+                view.setClickable(false);
+                startServiceBtn.setClickable(true);
             }
         });
 

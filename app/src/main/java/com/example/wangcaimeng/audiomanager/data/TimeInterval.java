@@ -35,16 +35,17 @@ public class TimeInterval {
         String eTime[] = endTimeText.split(":");
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(System.currentTimeMillis());
-        c.set(Calendar.SECOND,0);
         int hourOfDay = Integer.parseInt(sTime[0]);
         int minute = Integer.parseInt(sTime[1]);
         c.set(Calendar.HOUR_OF_DAY,hourOfDay);
         c.set(Calendar.MINUTE,minute);
+        c.set(Calendar.SECOND,0);
         startTime=c.getTimeInMillis();
         hourOfDay = Integer.parseInt(eTime[0]);
         minute = Integer.parseInt(eTime[1]);
         c.set(Calendar.HOUR_OF_DAY,hourOfDay);
         c.set(Calendar.MINUTE,minute);
+        c.set(Calendar.SECOND,0);
         endTime=c.getTimeInMillis();
     }
     public static int getCount() {

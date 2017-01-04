@@ -13,11 +13,13 @@
         android:layout_height="wrap_content"
         android:inputType="time"
         android:textSize="80px"
+        android:paddingLeft="80px"
         android:id="@+id/listItemEndTimeText"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="time"
-        android:textSize="100px"
+        android:textSize="80px"
+        android:paddingLeft="80px"
         android:id="@+id/listItemIsMute"/>
 </LinearLayout>

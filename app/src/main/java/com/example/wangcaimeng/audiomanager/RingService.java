@@ -19,6 +19,9 @@ public class RingService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         AudioManager aManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
         aManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,AudioManager.ADJUST_UNMUTE,AudioManager.FLAG_SHOW_UI);
+        aManager.adjustStreamVolume(AudioManager.STREAM_RING,AudioManager.ADJUST_UNMUTE,AudioManager.FLAG_SHOW_UI);
+        aManager.adjustStreamVolume(AudioManager.STREAM_NOTIFICATION,AudioManager.ADJUST_UNMUTE,AudioManager.FLAG_SHOW_UI);
+
         return START_STICKY;
     }
 }
